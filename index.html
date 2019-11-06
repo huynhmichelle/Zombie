@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Zombie hunter game">
+        <meta name="keywords" content="HTML, CSS, JavaScript">
+        <meta name="author" content="Michelle Huynh">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="./css/style.css">
+        <title>Zombie hunter game</title>
+    </head>
+    <body>
+        <img src="./images/zombie.gif" alt="zombie walking" id="centre">
+        <audio id="sound" src="./src/explosion_audio.ogg"></audio>
+        <table>
+            <tr>
+                <th>Score</th>
+            </tr>
+            <tr>
+                <td id="score">0</td>
+            </tr>
+        </table>
+        <p><span id="end">End game</span></p>
+        <script>
+            function getWidth() {
+                let width = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+                return(width);
+            }
+            
+            function getHeight() {
+                let height = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;
+                return(height);
+            }
+            
+            let myPosition1 = getWidth()/2;
+            let myPosition2 = getHeight()/2;
+            document.getElementById('centre').style.position="absolute"
+            function clickHandler() {
+                myPosition1 = Math.floor(Math.random()*(getWidth()-200)+100);
+                myPosition2 = Math.floor(Math.random()*(getHeight()-200)+100);
+                document.getElementById('centre').style.left=myPosition1+"px";
+                document.getElementById('centre').style.top=myPosition2+"px";
+                checkImagePosition();
+            }
+            function replaceImageToExplosion() {
+                document.getElementById('centre').src = "./images/explosion.gif"
+            }
+            function returnToZombieImage() {
+                if (document.getElementById('centre').src === "./images/explosion.gif") {
+                    document.getElementById('centre').src = "./images/zombie.gif";
+                } else {
+                    document.getElementById('centre').src = "./images/zombie.gif";
+                }
+            }
+            function playAudio() {
+                let sound = document.getElementById('sound');
+                sound.currentTime = 0;
+                sound.play();
+            }
+            function updateScore() {
+                let score = parseInt(document.getElementById("score").innerHTML)
+                score++;
+                document.getElementById('score').innerHTML = score
+            }
+            function endGame() {
+                score = parseInt(document.getElementById("score").html)
+                score = 0
+                document.getElementById('score').innerHTML = score
+                document.getElementById('centre').style.position = "absolute"
+                document.getElementById('centre').style.left = getWidth()/2 + "px";
+                document.getElementById('centre').style.top = getHeight()/2 + "px";
+            }
+            function onClickFunctions() {
+                playAudio();
+                replaceImageToExplosion();
+                updateScore();
+            }
+
+            // Invoking functions to execute the game
+            setInterval(clickHandler, 2000)
+            document.getElementById('centre').onclick = onClickFunctions;
+            setInterval(returnToZombieImage, 2000)
+            document.getElementById('end').onclick = endGame;
+        </script>
+    </body>
+</html>
